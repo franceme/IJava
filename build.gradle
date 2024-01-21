@@ -138,6 +138,7 @@ jupyter {
 }
 
 installKernel {
+    pythonExecutable = "/usr/bin/python3"
     kernelInstallPath = commandLineSpecifiedPath(userInstallPath)
 }
 
