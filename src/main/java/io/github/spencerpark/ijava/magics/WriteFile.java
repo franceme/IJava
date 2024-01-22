@@ -1,30 +1,29 @@
-
-
-
-
 package io.github.spencerpark.ijava.magics;
 
 import io.github.spencerpark.jupyter.kernel.magic.registry.CellMagic;
+import io.github.spencerpark.jupyter.kernel.magic.registry.MagicsArgs;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 public class ExecMagics {
     @CellMagic
-    public void loadFromPOM(List<String> args, String body) throws Exception {
+    public void writeOut(List<String> args, String body) throws Exception {
         try {
-            File tempPomPath = File.createTempFile("ijava-maven-", ".pom").getAbsoluteFile();
+            MagicsArgs schema = MagicsArgs.builder().required("filepath").onlyKnownKeywords().onlyKnownFlags().build();
 
+            Map<String, List<String>> vals = schema.parse(args);
+            String filepath = vals.get("filepath").get(0);
 
-            String rawPom = this.solidifyPartialPOM(body);
-            Files.write(tempPomPath.toPath(), rawPom.getBytes(Charset.forName("utf-8")));
+            File fileOut = new File(filepath);
+            if (fileOut.exists()) {
+                fileOut.delete();
+            }
 
-            List<String> loadArgs = new ArrayList<>(args.size() + 1);
-            loadArgs.add(tempPomPath.getAbsolutePath());
-            loadArgs.addAll(args);
-
-            this.loadFromPOM(loadArgs);
+            try (PrintWriter out = new PrintWriter(filepath)) {
+                out.println(body);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -26,6 +26,7 @@ package io.github.spencerpark.ijava;
 import io.github.spencerpark.ijava.execution.*;
 import io.github.spencerpark.ijava.magics.ClasspathMagics;
 import io.github.spencerpark.ijava.magics.ExecMagics;
+import io.github.spencerpark.ijava.magics.WriteFile;
 import io.github.spencerpark.ijava.magics.MavenResolver;
 import io.github.spencerpark.jupyter.kernel.BaseKernel;
 import io.github.spencerpark.jupyter.kernel.LanguageInfo;
@@ -97,6 +98,7 @@ public class JavaKernel extends BaseKernel {
         this.magics.registerMagics(new ClasspathMagics(this::addToClasspath));
         this.magics.registerMagics(new Load(List.of(".jsh", ".jshell", ".java", ".ijava"), this::eval));
         this.magics.registerMagics(new ExecMagics());
+        this.magics.registerMagics(new WriteFile());
 
         this.languageInfo = new LanguageInfo.Builder("Java")
                 .version(Runtime.version().toString())
