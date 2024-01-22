@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.io.*;
 
-public class ExecMagics {
+public class WriteFile {
     @CellMagic
     public void writeOut(List<String> args, String body) throws Exception {
         try {
