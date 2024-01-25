@@ -6,6 +6,10 @@ import io.github.spencerpark.jupyter.kernel.magic.registry.MagicsArgs;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
 
 public class CompileFile {
     private static final String coreDirectoryPrefix=new File("/opt/core/");
@@ -78,15 +82,16 @@ public class CompileFile {
                         System.out.println("Deleting: " + path);
                         Files.delete(path);  //delete each file or directory
                     } catch (IOException e) {
+                        System.out.println(e);
                         e.printStackTrace();
                     }
                 });
             System.out.println("Deleted the temp project at " +  project.getAbsolutePath());
 
         } catch (IOException e) {
+            System.out.println(e);
             throw new RuntimeException(e);
         }
-
         
     }
 }
