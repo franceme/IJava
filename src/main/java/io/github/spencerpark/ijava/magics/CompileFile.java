@@ -1,0 +1,92 @@
+package io.github.spencerpark.ijava.magics;
+
+import io.github.spencerpark.jupyter.kernel.magic.registry.CellMagic;
+import io.github.spencerpark.jupyter.kernel.magic.registry.MagicsArgs;
+
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.io.*;
+
+public class CompileFile {
+    private static final String coreDirectoryPrefix=new File("/opt/core/");
+    private static final String directoryPrefix="/opt/temp_project_"; 
+
+    private static void copyDirectory(File sourceDirectory, File destinationDirectory) throws IOException {
+        if (!destinationDirectory.exists()) {
+            destinationDirectory.mkdir();
+        }
+        for (String f : sourceDirectory.list()) {
+            copyDirectoryCompatibityMode(new File(sourceDirectory, f), new File(destinationDirectory, f));
+        }
+    }
+
+    @CellMagic
+    public void compile(List<String> args, String body) throws Exception {
+        Integer projectNumber = 0;
+        while (new File(directoryPrefix+projectNumber.toString()).exists()) {
+            projectNumber++;
+        }
+
+        File project = new File(directoryPrefix+projectNumber.toString());
+        System.out.println("Creating a copy of the core project at " + project.getAbsolutePath());
+        copyDirectory(coreDirectoryPrefix, project);
+        System.out.println("Copied a copy of the project at " + project.getAbsolutePath());
+        String result = "";
+       
+        StringBuilder nuBody = new StringBuilder("package core;");
+        for (String bodyLine:body.split("\n")) {
+            if (bodyLine.startsWith("public class")) {
+                bodyLine = "public class App {\n";
+            }
+
+            nuBody.append(bodyLine);
+        }
+        body = nuBody.toString();
+
+        //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
+        try {
+             File fileOut = new File(project.getAbsolutePath()+"/src/main/java/core/App.java");
+            if (fileOut.exists()) {
+                fileOut.delete();
+            }
+
+            System.out.println("About to overwrite the file into the location " + fileOut.getAbsolutePath());
+            try (PrintWriter out = new PrintWriter(filepath)) {
+                out.println("package core;");
+                out.println(body);
+            }
+
+            System.out.println("Executing the gradle clean and build process");
+            //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
+            Process process = Runtime.getRuntime().exec("cd " + project.getAbsolutePath() + " && ./gradlew clean build");
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                System.out.println(inputLine);
+                result += inputLine;
+            }
+            in.close();
+
+            System.out.println(result);
+
+            System.out.println("Deleting the temp project at " +  project.getAbsolutePath());
+            Files.walk(dir) // Traverse the file tree in depth-first order
+                .sorted(Comparator.reverseOrder())
+                .forEach(path -> {
+                    try {
+                        System.out.println("Deleting: " + path);
+                        Files.delete(path);  //delete each file or directory
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            System.out.println("Deleted the temp project at " +  project.getAbsolutePath());
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        
+    }
+}
