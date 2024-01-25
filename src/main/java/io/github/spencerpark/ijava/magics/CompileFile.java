@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.util.Comparator;
 
 public class CompileFile {
-    private static final String coreDirectoryPrefix=new File("/opt/core/");
+    private static final String coreDirectoryPrefix=new File("/opt/core/").getAbsolutePath();
     private static final String directoryPrefix="/opt/temp_project_"; 
 
     private static void copyDirectory(File sourceDirectory, File destinationDirectory) throws IOException {
@@ -58,7 +58,7 @@ public class CompileFile {
             }
 
             System.out.println("About to overwrite the file into the location " + fileOut.getAbsolutePath());
-            try (PrintWriter out = new PrintWriter(filepath)) {
+            try (PrintWriter out = new PrintWriter(fileOut)) {
                 out.println("package core;");
                 out.println(body);
             }
@@ -67,7 +67,7 @@ public class CompileFile {
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
             Process process = Runtime.getRuntime().exec("cd " + project.getAbsolutePath() + " && ./gradlew clean build");
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 System.out.println(inputLine);
@@ -79,7 +79,7 @@ public class CompileFile {
 
             if (deleteProject) {
                 System.out.println("Deleting the temp project at " +  project.getAbsolutePath());
-                Files.walk(dir) // Traverse the file tree in depth-first order
+                Files.walk(project.getAbsolutePath()) // Traverse the file tree in depth-first order
                     .sorted(Comparator.reverseOrder())
                     .forEach(path -> {
                         try {

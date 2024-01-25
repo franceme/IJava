@@ -27,7 +27,7 @@ import io.github.spencerpark.ijava.execution.*;
 import io.github.spencerpark.ijava.magics.ClasspathMagics;
 import io.github.spencerpark.ijava.magics.ExecMagics;
 import io.github.spencerpark.ijava.magics.WriteFile;
-import io.github.spencerpark.ijava.magics.CompileFilessss;
+import io.github.spencerpark.ijava.magics.CompileFile;
 import io.github.spencerpark.ijava.magics.MavenResolver;
 import io.github.spencerpark.jupyter.kernel.BaseKernel;
 import io.github.spencerpark.jupyter.kernel.LanguageInfo;
