@@ -26,6 +26,9 @@ public class CompileFile {
 
     @CellMagic
     public void compile(List<String> args, String body) throws Exception {
+        //Patching this out since I'll need to know the path to the class file
+        Boolean deleteProject = false;
+
         Integer projectNumber = 0;
         while (new File(directoryPrefix+projectNumber.toString()).exists()) {
             projectNumber++;
@@ -74,19 +77,21 @@ public class CompileFile {
 
             System.out.println(result);
 
-            System.out.println("Deleting the temp project at " +  project.getAbsolutePath());
-            Files.walk(dir) // Traverse the file tree in depth-first order
-                .sorted(Comparator.reverseOrder())
-                .forEach(path -> {
-                    try {
-                        System.out.println("Deleting: " + path);
-                        Files.delete(path);  //delete each file or directory
-                    } catch (IOException e) {
-                        System.out.println(e);
-                        e.printStackTrace();
-                    }
-                });
-            System.out.println("Deleted the temp project at " +  project.getAbsolutePath());
+            if (deleteProject) {
+                System.out.println("Deleting the temp project at " +  project.getAbsolutePath());
+                Files.walk(dir) // Traverse the file tree in depth-first order
+                    .sorted(Comparator.reverseOrder())
+                    .forEach(path -> {
+                        try {
+                            System.out.println("Deleting: " + path);
+                            Files.delete(path);  //delete each file or directory
+                        } catch (IOException e) {
+                            System.out.println(e);
+                            e.printStackTrace();
+                        }
+                    });
+                System.out.println("Deleted the temp project at " +  project.getAbsolutePath());
+            }
 
         } catch (IOException e) {
             System.out.println(e);
