@@ -103,4 +103,18 @@ public class CompileFile {
     public void execute(List<String> args, String body) throws Exception {
         commonExecution(body, "build run")
     }
+
+    @LineMagic
+    public List<String> cclasses(List<String> args) {
+        ArrayList<String> output = new ArranList<String>();
+        Integer projectNumber = 0;
+
+        while (new File(directoryPrefix+projectNumber.toString()).exists()) {
+            File current_project = new File(directoryPrefix+projectNumber.toString());
+            output.add(current_project.getAbsolutePath() + "build/classes/java/main/core/App.class");
+            projectNumber++;
+        }
+
+        return output;
+    }
 }
