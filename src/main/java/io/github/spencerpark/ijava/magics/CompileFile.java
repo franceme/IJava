@@ -19,7 +19,8 @@ public class CompileFile {
         if (source.isDirectory()) {
             copyDirectory(source, destination);
         } else {
-            copyFile(source, destination);
+            Files.copy(src.toPath(), dest.toPath());
+            //copyFile(source, destination);
         }
     }
 
