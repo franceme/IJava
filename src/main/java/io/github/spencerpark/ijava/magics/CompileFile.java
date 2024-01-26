@@ -36,7 +36,7 @@ public class CompileFile {
 
         File project = new File(directoryPrefix+projectNumber.toString());
         System.out.println("Creating a copy of the core project at " + project.getAbsolutePath());
-        copyDirectory(coreDirectoryPrefix, project);
+        copyDirectory(new File(coreDirectoryPrefix), project);
         System.out.println("Copied a copy of the project at " + project.getAbsolutePath());
         String result = "";
        
@@ -76,22 +76,6 @@ public class CompileFile {
             in.close();
 
             System.out.println(result);
-
-            if (deleteProject) {
-                System.out.println("Deleting the temp project at " +  project.getAbsolutePath());
-                Files.walk(project.getAbsolutePath()) // Traverse the file tree in depth-first order
-                    .sorted(Comparator.reverseOrder())
-                    .forEach(path -> {
-                        try {
-                            System.out.println("Deleting: " + path);
-                            Files.delete(path);  //delete each file or directory
-                        } catch (IOException e) {
-                            System.out.println(e);
-                            e.printStackTrace();
-                        }
-                    });
-                System.out.println("Deleted the temp project at " +  project.getAbsolutePath());
-            }
 
         } catch (IOException e) {
             System.out.println(e);
