@@ -68,10 +68,17 @@ public class CompileFile {
             }
 
             System.out.println("About to overwrite the file into the location " + fileOut.getAbsolutePath());
+            ArrayList<String> linesToWrite = new ArrayList<String>();
+            linesToWrite.add("package core;");
+            linesToWrite.addAll(body.split("\n"));
+            Files.write(fileOut.getAbsolutePath(), lines);
+
+            /*
             try (PrintWriter out = new PrintWriter(fileOut)) {
                 out.println("package core;");
                 out.println(body);
             }
+            */
 
             System.out.println("Executing the gradle clean and build process");
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
