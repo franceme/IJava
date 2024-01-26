@@ -36,8 +36,8 @@ public class CompileFile {
     @CellMagic
     public void compile(List<String> args, String body) throws Exception {
         //Patching this out since I'll need to know the path to the class file
-        System.out.println(coreDirectoryPrefix);
-        System.out.println(new File(coreDirectoryPrefix).exists());
+        //System.out.println(coreDirectoryPrefix);
+        //System.out.println(new File(coreDirectoryPrefix).exists());
 
         Integer projectNumber = 0;
         while (new File(directoryPrefix+projectNumber.toString()).exists()) {
@@ -45,9 +45,9 @@ public class CompileFile {
         }
 
         File project = new File(directoryPrefix+projectNumber.toString());
-        System.out.println("Creating a copy of the core project at " + project.getAbsolutePath());
+        //System.out.println("Creating a copy of the core project at " + project.getAbsolutePath());
         copyDirectory(new File(coreDirectoryPrefix), project);
-        System.out.println("Copied a copy of the project at " + project.getAbsolutePath());
+        //System.out.println("Copied a copy of the project at " + project.getAbsolutePath());
         String result = "";
        
         StringBuilder nuBody = new StringBuilder("package core;");
@@ -67,25 +67,17 @@ public class CompileFile {
                 fileOut.delete();
             }
 
-            System.out.println("About to overwrite the file into the location " + fileOut.getAbsolutePath());
+            //System.out.println("About to overwrite the file into the location " + fileOut.getAbsolutePath());
             ArrayList<String> linesToWrite = new ArrayList<String>();
-            //linesToWrite.add("package core;");
             for (String string:body.split("\n")) {
                 linesToWrite.add(string + "\n");
             }
 
             Files.write(fileOut.toPath(), linesToWrite);
 
-            /*
-            try (PrintWriter out = new PrintWriter(fileOut)) {
-                out.println("package core;");
-                out.println(body);
-            }
-            */
-
-            System.out.println("Executing the gradle clean and build process");
+            //System.out.println("Executing the gradle clean and build process");
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
-            Process process = Runtime.getRuntime().exec("./gradlew clean build", null,project);
+            Process process = Runtime.getRuntime().exec("./gradlew clean build run", null,project);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String inputLine;
@@ -94,8 +86,7 @@ public class CompileFile {
                 result += inputLine;
             }
             in.close();
-
-            //System.out.println(result);
+            System.out.println("Successfully ran the project at " + project.getAbsolutePath());
 
         } catch (IOException e) {
             System.out.println(e);
