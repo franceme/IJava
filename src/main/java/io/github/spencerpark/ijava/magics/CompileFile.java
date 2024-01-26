@@ -70,8 +70,11 @@ public class CompileFile {
             System.out.println("About to overwrite the file into the location " + fileOut.getAbsolutePath());
             ArrayList<String> linesToWrite = new ArrayList<String>();
             linesToWrite.add("package core;");
-            linesToWrite.addAll(body.split("\n"));
-            Files.write(fileOut.getAbsolutePath(), lines);
+            for (String string:body.split("\n")) {
+                linesToWrite.add(string);
+            }
+
+            Files.write(fileOut.getAbsolutePath(), linesToWrite);
 
             /*
             try (PrintWriter out = new PrintWriter(fileOut)) {
