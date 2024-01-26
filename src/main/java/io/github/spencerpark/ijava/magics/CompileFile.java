@@ -15,6 +15,14 @@ public class CompileFile {
     private static final String coreDirectoryPrefix=new File("/opt/core/").getAbsolutePath();
     private static final String directoryPrefix="/opt/temp_project_"; 
 
+    private static void copyDirectoryCompatibityMode(File source, File destination) throws IOException {
+        if (source.isDirectory()) {
+            copyDirectory(source, destination);
+        } else {
+            copyFile(source, destination);
+        }
+    }
+
     private static void copyDirectory(File sourceDirectory, File destinationDirectory) throws IOException {
         if (!destinationDirectory.exists()) {
             destinationDirectory.mkdir();
