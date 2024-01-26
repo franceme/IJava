@@ -53,10 +53,10 @@ public class CompileFile {
         StringBuilder nuBody = new StringBuilder("package core;");
         for (String bodyLine:body.split("\n")) {
             if (bodyLine.startsWith("public class")) {
-                bodyLine = "public class App {\n";
+                bodyLine = "public class App {";
             }
 
-            nuBody.append(bodyLine);
+            nuBody.append("\n").append(bodyLine);
         }
         body = nuBody.toString();
 
@@ -95,7 +95,7 @@ public class CompileFile {
             }
             in.close();
 
-            System.out.println(result);
+            //System.out.println(result);
 
         } catch (IOException e) {
             System.out.println(e);
