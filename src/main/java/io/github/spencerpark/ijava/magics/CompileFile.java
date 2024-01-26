@@ -33,8 +33,7 @@ public class CompileFile {
         }
     }
 
-    @CellMagic
-    public void compile(List<String> args, String body) throws Exception {
+    public static void commonExecution(String body, String gradleArgs) throws Exception {
         //Patching this out since I'll need to know the path to the class file
         //System.out.println(coreDirectoryPrefix);
         //System.out.println(new File(coreDirectoryPrefix).exists());
@@ -77,7 +76,7 @@ public class CompileFile {
 
             //System.out.println("Executing the gradle clean and build process");
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
-            Process process = Runtime.getRuntime().exec("./gradlew clean build run", null,project);
+            Process process = Runtime.getRuntime().exec("./gradlew clean " + gradleArgs, null, project);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String inputLine;
@@ -93,5 +92,15 @@ public class CompileFile {
             throw new RuntimeException(e);
         }
         
+    }
+
+    @CellMagic
+    public void compile(List<String> args, String body) throws Exception {
+        commonExecution(body, "build")
+    }
+
+    @CellMagic
+    public void execute(List<String> args, String body) throws Exception {
+        commonExecution(body, "build run")
     }
 }
