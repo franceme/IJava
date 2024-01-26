@@ -74,7 +74,7 @@ public class CompileFile {
                 linesToWrite.add(string);
             }
 
-            Files.write(fileOut.getAbsolutePath(), linesToWrite);
+            Files.write(fileOut.toPath(), linesToWrite);
 
             /*
             try (PrintWriter out = new PrintWriter(fileOut)) {
