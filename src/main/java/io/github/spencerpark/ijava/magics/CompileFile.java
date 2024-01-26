@@ -36,7 +36,8 @@ public class CompileFile {
     @CellMagic
     public void compile(List<String> args, String body) throws Exception {
         //Patching this out since I'll need to know the path to the class file
-        Boolean deleteProject = false;
+        System.out.println(coreDirectoryPrefix);
+        System.out.println(new File(coreDirectoryPrefix).exists());
 
         Integer projectNumber = 0;
         while (new File(directoryPrefix+projectNumber.toString()).exists()) {
