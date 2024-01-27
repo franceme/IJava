@@ -18,7 +18,7 @@ public class ScanFile {
 
     private static void executeCryptoguard(String arguments) {
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
-            Process process = Runtime.getRuntime().exec("java -jar " + cryptoguard.getAbsolutePath() + " " + arguments, null, "/opt");
+            Process process = Runtime.getRuntime().exec("java -jar " + cryptoguard.getAbsolutePath() + " " + arguments, null, new File("/opt"));
 
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String inputLine;
