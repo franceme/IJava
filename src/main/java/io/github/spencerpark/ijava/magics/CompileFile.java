@@ -1,6 +1,7 @@
 package io.github.spencerpark.ijava.magics;
 
 import io.github.spencerpark.jupyter.kernel.magic.registry.CellMagic;
+import io.github.spencerpark.jupyter.kernel.magic.registry.LineMagic;
 import io.github.spencerpark.jupyter.kernel.magic.registry.MagicsArgs;
 
 import java.nio.charset.StandardCharsets;
@@ -82,7 +83,6 @@ public class CompileFile {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 System.out.println(inputLine);
-                result += inputLine;
             }
             in.close();
             System.out.println("Successfully ran the project at " + project.getAbsolutePath());
@@ -106,7 +106,7 @@ public class CompileFile {
 
     @LineMagic
     public List<String> cclasses(List<String> args) {
-        ArrayList<String> output = new ArranList<String>();
+        ArrayList<String> output = new ArrayList<String>();
         Integer projectNumber = 0;
 
         while (new File(directoryPrefix+projectNumber.toString()).exists()) {

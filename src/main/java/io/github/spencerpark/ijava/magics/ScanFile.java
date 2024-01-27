@@ -18,13 +18,12 @@ public class ScanFile {
 
     private static void executeCryptoguard(String arguments) {
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
-            Process process = Runtime.getRuntime().exec("java -jar " + cryptoguard.getAbsolutePath() + " " + arguments, null, project);
+            Process process = Runtime.getRuntime().exec("java -jar " + cryptoguard.getAbsolutePath() + " " + arguments, null, "/opt");
 
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 System.out.println(inputLine);
-                result += inputLine;
             }
             in.close();
     }
@@ -42,13 +41,13 @@ public class ScanFile {
             String filepath = vals.get("file").get(0);
             String fileResults = filepath + ".xml";
 
-            StringBuilder args = new StringBuilder();
+            StringBuilder argBuilder = new StringBuilder();
 
-            args.append("-s ").append(filepath).append(" ");
-            args.append("-in class ");
-            args.append("-o ").append(fileResults).append(" ");
+            argBuilder.append("-s ").append(filepath).append(" ");
+            argBuilder.append("-in class ");
+            argBuilder.append("-o ").append(fileResults).append(" ");
 
-            executeCryptoguard(args.toString());
+            executeCryptoguard(argBuilder.toString());
             return retrieveResults(fileResults);
         } catch (IOException e) {
             throw new RuntimeException(e);
