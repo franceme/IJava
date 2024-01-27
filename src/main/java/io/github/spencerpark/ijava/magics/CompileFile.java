@@ -96,12 +96,12 @@ public class CompileFile {
 
     @CellMagic
     public void compile(List<String> args, String body) throws Exception {
-        commonExecution(body, "build")
+        commonExecution(body, "build");
     }
 
     @CellMagic
     public void execute(List<String> args, String body) throws Exception {
-        commonExecution(body, "build run")
+        commonExecution(body, "build run");
     }
 
     @LineMagic
