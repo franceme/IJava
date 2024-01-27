@@ -16,7 +16,7 @@ import java.util.Comparator;
 public class ScanFile {
     private static final File cryptoguard=new File("/opt/cryptoguard.jar");
 
-    private static void executeCryptoguard(String arguments) {
+    private static void executeCryptoguard(String arguments) throws Exception {
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
             Process process = Runtime.getRuntime().exec("java -jar " + cryptoguard.getAbsolutePath() + " " + arguments, null, new File("/opt"));
 
@@ -28,7 +28,7 @@ public class ScanFile {
             in.close();
     }
 
-    private static AnalyzerReport retrieveResults(String resultsFile) {
+    private static AnalyzerReport retrieveResults(String resultsFile) throws Exception {
         return AnalyzerReport.deserialize(new File(resultsFile));
     }
 
@@ -50,6 +50,7 @@ public class ScanFile {
             executeCryptoguard(argBuilder.toString());
             return retrieveResults(fileResults);
         } catch (IOException e) {
+            System.out.println(e);
             throw new RuntimeException(e);
         }
         return null;
