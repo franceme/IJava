@@ -77,7 +77,7 @@ dependencies {
     //shade group: 'org.apache.maven', name: 'maven-settings-builder', version: '3.6.0'
     shade group: 'org.apache.maven', name: 'maven-model-builder', version: '3.6.0'
 
-    compile files('libs/cryptoguard.jar')
+    compile name: 'cryptoguard'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
