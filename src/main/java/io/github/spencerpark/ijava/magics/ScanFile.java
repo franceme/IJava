@@ -1,6 +1,8 @@
 package io.github.spencerpark.ijava.magics;
 
-import io.github.spencerpark.jupyter.kernel.magic.registry.CellMagic;
+import frontEnd.MessagingSystem.routing.structure.Scarf.AnalyzerReport;
+
+import io.github.spencerpark.jupyter.kernel.magic.registry.LineMagic;
 import io.github.spencerpark.jupyter.kernel.magic.registry.MagicsArgs;
 
 import java.nio.charset.StandardCharsets;
@@ -25,5 +27,32 @@ public class ScanFile {
                 result += inputLine;
             }
             in.close();
+    }
+
+    private static AnalyzerReport retrieveResults(String resultsFile) {
+        return AnalyzerReport.deserialize(new File(resultsFile));
+    }
+
+    @LineMagic(aliases = { "cryptoguard", "cguard" })
+    public AnalyzerReport scan(List<String> args) throws Exception {
+        try {
+            MagicsArgs schema = MagicsArgs.builder().required("file").onlyKnownKeywords().onlyKnownFlags().build();
+
+            Map<String, List<String>> vals = schema.parse(args);
+            String filepath = vals.get("file").get(0);
+            String fileResults = filepath + ".xml";
+
+            StringBuilder args = new StringBuilder();
+
+            args.append("-s ").append(filepath).append(" ");
+            args.append("-in class ");
+            args.append("-o ").append(fileResults).append(" ");
+
+            executeCryptoguard(args.toString());
+            return retrieveResults(fileResults);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }

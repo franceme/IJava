@@ -65,6 +65,9 @@ repositories {
         url = 'https://oss.sonatype.org/content/repositories/snapshots/'
     }
     mavenLocal()
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
