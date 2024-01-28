@@ -49,6 +49,7 @@ public class ScanFile {
             argBuilder.append("-s ").append(filepath).append(" ");
             argBuilder.append("-in class ");
             argBuilder.append("-o ").append(fileResults).append(" ");
+            argBuilder.append("-java /bin/java_eight");
 
             executeCryptoguard(argBuilder.toString());
             return retrieveResults(fileResults);
