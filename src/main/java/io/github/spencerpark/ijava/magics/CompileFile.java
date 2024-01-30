@@ -111,7 +111,7 @@ public class CompileFile {
 
         while (new File(directoryPrefix+projectNumber.toString()).exists()) {
             File current_project = new File(directoryPrefix+projectNumber.toString());
-            output.add(current_project.getAbsolutePath() + "build/classes/java/main/core/App.class");
+            output.add(current_project.getAbsolutePath() + "/build/classes/java/main/core/App.class");
             projectNumber++;
         }
 

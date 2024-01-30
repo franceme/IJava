@@ -18,7 +18,7 @@ public class ScanFile {
 
     private static void executeCryptoguard(String arguments) throws Exception {
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
-            String command = "java -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
+            String command = "/bin/java_eight -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
             System.out.println(command);
 
             Process process = Runtime.getRuntime().exec(command, null, new File("/opt"));
