@@ -18,7 +18,8 @@ public class ScanFile {
 
     private static void executeCryptoguard(String arguments) throws Exception {
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
-            String command = "/bin/java_eight -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
+            //String command = "/bin/java_eight -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
+            String command = System.getenv("JAVA8") + " -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
             System.out.println(command);
 
             Process process = Runtime.getRuntime().exec(command, null, new File("/opt"));
@@ -49,7 +50,8 @@ public class ScanFile {
             argBuilder.append("-s ").append(filepath).append(" ");
             argBuilder.append("-in class ");
             argBuilder.append("-o ").append(fileResults).append(" ");
-            argBuilder.append("-java /bin/java_eight");
+            //argBuilder.append("-java /bin/java_eight");
+            argBuilder.append("-java " + System.getenv("JAVA8"));
 
             executeCryptoguard(argBuilder.toString());
             return retrieveResults(fileResults);
