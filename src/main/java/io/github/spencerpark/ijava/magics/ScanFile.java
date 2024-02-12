@@ -61,7 +61,7 @@ public class ScanFile {
         }
     }
     
-    public static String getFileFromWildCard(String path) {
+    private static String getFileFromWildCard(String path) {
         String[] split = path.split("/");
         StringBuilder build = new StringBuilder();
         for (int itr = 0;itr < split.length - 1;itr ++)
@@ -78,6 +78,7 @@ public class ScanFile {
     public String vm(List<String> args) throws Exception {
         String cur_user = System.getProperty("user.name");
 
+        MagicsArgs schema = MagicsArgs.builder().required("jvm").onlyKnownKeywords().onlyKnownFlags().build();
         Map<String, List<String>> vals = schema.parse(args);
         String jvm_option = vals.get("jvm").get(0);
 
