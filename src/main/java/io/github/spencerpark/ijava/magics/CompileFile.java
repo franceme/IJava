@@ -119,7 +119,7 @@ public class CompileFile {
     }
 
     @LineMagic
-    public List<String> compiled(List<String> args) {
+    public String compiled(List<String> args) {
         String output = "";
         Integer projectNumber = 0;
 
