@@ -86,7 +86,7 @@ public class ScanFile {
         else if (jvm_option.toLowerCase().equals("java"))//java8
             return getFileFromWildCard("/home/" + cur_user + "/.sdkman/candidates/java/8*");
         else //android
-            return "/home/" + cur_user + "/.sdkman/candidates/android/current"
+            return "/home/" + cur_user + "/.sdkman/candidates/android/current";
     }
 
 }
