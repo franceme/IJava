@@ -60,4 +60,33 @@ public class ScanFile {
             throw new RuntimeException(e);
         }
     }
+    
+    public static String getFileFromWildCard(String path) {
+        String[] split = path.split("/");
+        StringBuilder build = new StringBuilder();
+        for (int itr = 0;itr < split.length - 1;itr ++)
+            build.append(split[itr]).append("/");
+
+        String[] files = new File(build.toString()).list(new WildcardFileFilter(split[split.length-1]));
+        if (files.length > 0)
+            return build.toString() + files[files.length - 1];
+        else
+            return null;
+    }
+
+    @LineMagic(aliases = { "jdk", "jvm" })
+    public String vm(List<String> args) throws Exception {
+        String cur_user = System.getProperty("user.name");
+
+        Map<String, List<String>> vals = schema.parse(args);
+        String jvm_option = vals.get("jvm").get(0);
+
+        if (jvm_option.toLowerCase().equals("java7"))//java7
+            return getFileFromWildCard("/home/" + cur_user + "/.sdkman/candidates/java/7*");
+        else if (jvm_option.toLowerCase().equals("java"))//java8
+            return getFileFromWildCard("/home/" + cur_user + "/.sdkman/candidates/java/8*");
+        else //android
+            return "/home/" + cur_user + "/.sdkman/candidates/android/current"
+    }
+
 }
