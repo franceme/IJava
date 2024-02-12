@@ -2,6 +2,8 @@ package io.github.spencerpark.ijava.magics;
 
 import frontEnd.MessagingSystem.routing.structure.Scarf.AnalyzerReport;
 
+import org.apache.commons.io.filefilter.WildcardFileFilter;
+
 import io.github.spencerpark.jupyter.kernel.magic.registry.LineMagic;
 import io.github.spencerpark.jupyter.kernel.magic.registry.MagicsArgs;
 
