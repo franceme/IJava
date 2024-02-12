@@ -117,4 +117,18 @@ public class CompileFile {
 
         return output;
     }
+
+    @LineMagic
+    public List<String> compiled(List<String> args) {
+        String output = "";
+        Integer projectNumber = 0;
+
+        while (new File(directoryPrefix+projectNumber.toString()).exists()) {
+            File current_project = new File(directoryPrefix+projectNumber.toString());
+            output = current_project.getAbsolutePath() + "/build/classes/java/main/core/App.class";
+            projectNumber++;
+        }
+
+        return output;
+    }
 }
