@@ -18,7 +18,7 @@ public class ClasspathMagics {
 
     @LineMagic
     public String version(List<String> args) {
-        return System.getProperty("java.version")
+        return System.getProperty("java.version");
     }
 
     @LineMagic
