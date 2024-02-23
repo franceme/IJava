@@ -17,6 +17,11 @@ public class ClasspathMagics {
     }
 
     @LineMagic
+    public String version(List<String> args) {
+        return System.getProperty("java.version")
+    }
+
+    @LineMagic
     public List<String> jars(List<String> args) {
         List<String> jars = args.stream()
                 .map(GlobFinder::new)
