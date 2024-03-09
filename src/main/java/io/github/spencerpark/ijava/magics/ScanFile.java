@@ -23,7 +23,7 @@ public class ScanFile {
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
             //String command = "/bin/java_eight -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
             //String command = System.getenv("JAVA8") + " -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
-            String command = javaRetrieval("JAVA8") + " -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
+            String command = javaRetrieval("JAVA8") + "/bin/java -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
             System.out.println(command);
 
             Process process = Runtime.getRuntime().exec(command, null, new File("/opt"));
