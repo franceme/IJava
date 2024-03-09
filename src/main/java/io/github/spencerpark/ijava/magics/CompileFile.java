@@ -53,7 +53,17 @@ public class CompileFile {
         StringBuilder nuBody = new StringBuilder("package core;");
         for (String bodyLine:body.split("\n")) {
             if (bodyLine.startsWith("public class")) {
-                bodyLine = "public class App {";
+                //Need to account for something like the following line
+                //public class DummyCertValidationCase3 implements X509TrustManager {
+
+                String[] strippedBodyLineParts = bodyLine.replace("public class ", "").split(" ");
+                bodyLine = "public class";
+                for (String nuBodyLine:strippedBodyLineParts) {
+                    if (nuBodyLine == strippedBodyLineParts[0]) continue;
+                    bodyLine += " " + nuBodyLine;
+                }
+
+                //bodyLine = "public class App {";
             }
 
             nuBody.append("\n").append(bodyLine);
