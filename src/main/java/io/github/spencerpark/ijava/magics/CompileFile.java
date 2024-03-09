@@ -57,7 +57,7 @@ public class CompileFile {
                 //public class DummyCertValidationCase3 implements X509TrustManager {
 
                 String[] strippedBodyLineParts = bodyLine.replace("public class ", "").split(" ");
-                bodyLine = "public class";
+                bodyLine = "public class App";
                 for (String nuBodyLine:strippedBodyLineParts) {
                     if (nuBodyLine == strippedBodyLineParts[0]) continue;
                     bodyLine += " " + nuBodyLine;
