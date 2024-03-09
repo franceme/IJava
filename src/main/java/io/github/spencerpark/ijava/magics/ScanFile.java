@@ -47,7 +47,7 @@ public class ScanFile {
 
             Map<String, List<String>> vals = schema.parse(args);
             String filepath = vals.get("file").get(0);
-            String fileResults = filepath + ".xml";
+            String fileResults = filepath + ".json";
 
             StringBuilder argBuilder = new StringBuilder();
 
