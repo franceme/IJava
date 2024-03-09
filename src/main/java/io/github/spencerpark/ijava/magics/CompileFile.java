@@ -77,7 +77,7 @@ public class CompileFile {
 
             //System.out.println("Executing the gradle clean and build process");
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
-            Process process = Runtime.getRuntime().exec("sdk d java 8.0.402-zulu && ./gradlew clean " + gradleArgs, null, project);
+            Process process = Runtime.getRuntime().exec("./gradlew clean " + gradleArgs, null, project);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String inputLine;
