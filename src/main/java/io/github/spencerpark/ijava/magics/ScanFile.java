@@ -18,10 +18,12 @@ import java.util.Comparator;
 public class ScanFile {
     private static final File cryptoguard=new File("/opt/cryptoguard.jar");
 
+    //javaRetrieval
     private static void executeCryptoguard(String arguments) throws Exception {
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
             //String command = "/bin/java_eight -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
-            String command = System.getenv("JAVA8") + " -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
+            //String command = System.getenv("JAVA8") + " -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
+            String command = javaRetrieval("JAVA8") + " -jar " + cryptoguard.getAbsolutePath() + " " + arguments;
             System.out.println(command);
 
             Process process = Runtime.getRuntime().exec(command, null, new File("/opt"));
@@ -53,7 +55,8 @@ public class ScanFile {
             argBuilder.append("-in class ");
             argBuilder.append("-o ").append(fileResults).append(" ");
             //argBuilder.append("-java /bin/java_eight");
-            argBuilder.append("-java " + System.getenv("JAVA8"));
+            //argBuilder.append("-java " + System.getenv("JAVA8"));
+            argBuilder.append("-java " + javaRetrieval("JAVA8"));
 
             executeCryptoguard(argBuilder.toString());
             return retrieveResults(fileResults);
@@ -76,20 +79,24 @@ public class ScanFile {
             return null;
     }
 
-    @LineMagic(aliases = { "jdk", "jvm" })
-    public String vm(List<String> args) throws Exception {
+    private static String javaRetrieval(String jvmVersion) {
         String cur_user = System.getProperty("user.name");
 
+        if (jvmVersion.toLowerCase().equals("java7"))//java7
+            return getFileFromWildCard("/home/" + cur_user + "/.sdkman/candidates/java/7*");
+        else if (jvmVersion.toLowerCase().equals("java") || jvmVersion.toLowerCase().equals("java8"))//java8
+            return getFileFromWildCard("/home/" + cur_user + "/.sdkman/candidates/java/8*");
+        else //android
+            return "/home/" + cur_user + "/.sdkman/candidates/android/current";
+    }
+
+    @LineMagic(aliases = { "jdk", "jvm" })
+    public String vm(List<String> args) throws Exception {
         MagicsArgs schema = MagicsArgs.builder().required("jvm").onlyKnownKeywords().onlyKnownFlags().build();
         Map<String, List<String>> vals = schema.parse(args);
         String jvm_option = vals.get("jvm").get(0);
 
-        if (jvm_option.toLowerCase().equals("java7"))//java7
-            return getFileFromWildCard("/home/" + cur_user + "/.sdkman/candidates/java/7*");
-        else if (jvm_option.toLowerCase().equals("java"))//java8
-            return getFileFromWildCard("/home/" + cur_user + "/.sdkman/candidates/java/8*");
-        else //android
-            return "/home/" + cur_user + "/.sdkman/candidates/android/current";
+        return javaRetrieval(jvm_option);
     }
 
 }
