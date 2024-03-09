@@ -70,7 +70,7 @@ public class CompileFile {
             //System.out.println("About to overwrite the file into the location " + fileOut.getAbsolutePath());
             ArrayList<String> linesToWrite = new ArrayList<String>();
             for (String string:body.split("\n")) {
-                linesToWrite.add(string + "\n");
+                linesToWrite.add(string);// + "\n");
             }
 
             Files.write(fileOut.toPath(), linesToWrite);
