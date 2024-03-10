@@ -50,7 +50,7 @@ public class ScanFile {
     }
 
     @LineMagic(aliases = { "cryptoguard", "cguard" })
-    public AnalyzerReport scan(List<String> args) throws Exception {
+    public Report scan(List<String> args) throws Exception {
         try {
             MagicsArgs schema = MagicsArgs.builder().required("file").onlyKnownKeywords().onlyKnownFlags().build();
 
