@@ -8,6 +8,8 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import io.github.spencerpark.jupyter.kernel.magic.registry.LineMagic;
 import io.github.spencerpark.jupyter.kernel.magic.registry.MagicsArgs;
 
+import io.github.spencerpark.ijava.execution.CodeEvaluator.eval;
+
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.io.*;
@@ -47,6 +49,21 @@ public class ScanFile {
 
     private static Report retrieveResultsByJSON(String resultsFile) throws Exception {
         return Report.deserialize(new File(resultsFile));
+    }
+
+    @LineMagic
+    public String checkVar(List<String> args) throws Exception {
+        String output = "";
+        MagicsArgs schema = MagicsArgs.builder().required("variable").onlyKnownKeywords().onlyKnownFlags().build();
+
+        Map<String, List<String>> vals = schema.parse(args);
+        String variable = vals.get("variable").get(0);
+        try {
+            output = eval(variable).toString();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return output;
     }
 
     @LineMagic(aliases = { "cryptoguard", "cguard" })
