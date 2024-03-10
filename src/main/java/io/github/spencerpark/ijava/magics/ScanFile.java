@@ -53,6 +53,13 @@ public class ScanFile {
 
     @LineMagic
     public String checkVar(List<String> args) throws Exception {
+        /**
+         * | String sampling = "89";
+         * | 
+         * | String samplingValue = %checkVar sampling
+         * | System.out.println(samplingValue);
+         * 89
+         */
         String output = "";
         MagicsArgs schema = MagicsArgs.builder().required("variable").onlyKnownKeywords().onlyKnownFlags().build();
 
@@ -72,7 +79,16 @@ public class ScanFile {
             MagicsArgs schema = MagicsArgs.builder().required("file").onlyKnownKeywords().onlyKnownFlags().build();
 
             Map<String, List<String>> vals = schema.parse(args);
-            String filepath = vals.get("file").get(0);
+            String unevaluatedfilepath = vals.get("file").get(0);
+
+            String filepath = unevaluatedfilepath;
+            try {
+                filepath = Kernel.eval(unevaluatedfilepath).toString().trim();
+            } catch (Exception e) {
+                System.out.println(e);
+                throw new RuntimeException(e);
+            }
+
             String fileResults = filepath + ".json";
 
             StringBuilder argBuilder = new StringBuilder();
