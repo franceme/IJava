@@ -8,7 +8,7 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import io.github.spencerpark.jupyter.kernel.magic.registry.LineMagic;
 import io.github.spencerpark.jupyter.kernel.magic.registry.MagicsArgs;
 
-import io.github.spencerpark.ijava.execution.CodeEvaluator.eval;
+import io.github.spencerpark.ijava.runtime.Kernel;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -59,7 +59,7 @@ public class ScanFile {
         Map<String, List<String>> vals = schema.parse(args);
         String variable = vals.get("variable").get(0);
         try {
-            output = eval(variable).toString();
+            output = Kernel.eval(variable).toString();
         } catch (Exception e) {
             System.out.println(e);
         }
