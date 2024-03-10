@@ -1,6 +1,7 @@
 package io.github.spencerpark.ijava.magics;
 
 import frontEnd.MessagingSystem.routing.structure.Scarf.AnalyzerReport;
+import frontEnd.MessagingSystem.routing.structure.Default.Report;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 
@@ -37,7 +38,15 @@ public class ScanFile {
     }
 
     private static AnalyzerReport retrieveResults(String resultsFile) throws Exception {
+        return retrieveResultsByXML(resultsFile);
+    }
+
+    private static AnalyzerReport retrieveResultsByXML(String resultsFile) throws Exception {
         return AnalyzerReport.deserialize(new File(resultsFile));
+    }
+
+    private static Default retrieveResultsByJSON(String resultsFile) throws Exception {
+        return Default.deserialize(new File(resultsFile));
     }
 
     @LineMagic(aliases = { "cryptoguard", "cguard" })
@@ -59,7 +68,7 @@ public class ScanFile {
             argBuilder.append("-java " + javaRetrieval("JAVA8"));
 
             executeCryptoguard(argBuilder.toString());
-            return retrieveResults(fileResults);
+            return retrieveResultsByJSON(fileResults);
         } catch (IOException e) {
             System.out.println(e);
             throw new RuntimeException(e);
@@ -85,7 +94,7 @@ public class ScanFile {
             argBuilder.append("-java " + javaRetrieval("JAVA8"));
 
             executeCryptoguard(argBuilder.toString());
-            return retrieveResults(fileResults);
+            return retrieveResultsByXML(fileResults);
         } catch (IOException e) {
             System.out.println(e);
             throw new RuntimeException(e);
