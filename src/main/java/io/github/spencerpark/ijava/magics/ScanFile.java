@@ -45,8 +45,8 @@ public class ScanFile {
         return AnalyzerReport.deserialize(new File(resultsFile));
     }
 
-    private static Default retrieveResultsByJSON(String resultsFile) throws Exception {
-        return Default.deserialize(new File(resultsFile));
+    private static Report retrieveResultsByJSON(String resultsFile) throws Exception {
+        return Report.deserialize(new File(resultsFile));
     }
 
     @LineMagic(aliases = { "cryptoguard", "cguard" })
