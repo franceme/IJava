@@ -65,6 +65,32 @@ public class ScanFile {
             throw new RuntimeException(e);
         }
     }
+
+    @LineMagic(aliases = { "pcryptoguard", "pcguard" })
+    public AnalyzerReport pscan(List<String> args) throws Exception {
+        try {
+            MagicsArgs schema = MagicsArgs.builder().required("file").onlyKnownKeywords().onlyKnownFlags().build();
+
+            Map<String, List<String>> vals = schema.parse(args);
+            String filepath = vals.get("file").get(0);
+            String fileResults = filepath + ".xml";
+
+            StringBuilder argBuilder = new StringBuilder();
+
+            argBuilder.append("-s ").append(filepath).append(" ");
+            argBuilder.append("-in class ");
+            argBuilder.append("-o ").append(fileResults).append(" ");
+            //argBuilder.append("-java /bin/java_eight");
+            //argBuilder.append("-java " + System.getenv("JAVA8"));
+            argBuilder.append("-java " + javaRetrieval("JAVA8"));
+
+            executeCryptoguard(argBuilder.toString());
+            return retrieveResults(fileResults);
+        } catch (IOException e) {
+            System.out.println(e);
+            throw new RuntimeException(e);
+        }
+    }
     
     private static String getFileFromWildCard(String path) {
         String[] split = path.split("/");
