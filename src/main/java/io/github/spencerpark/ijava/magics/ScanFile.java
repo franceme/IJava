@@ -39,14 +39,6 @@ public class ScanFile {
             in.close();
     }
 
-    private static AnalyzerReport retrieveResults(String resultsFile) throws Exception {
-        return retrieveResultsByXML(resultsFile);
-    }
-
-    private static AnalyzerReport retrieveResultsByXML(String resultsFile) throws Exception {
-        return AnalyzerReport.deserialize(new File(resultsFile));
-    }
-
     private static Report retrieveResultsByJSON(String resultsFile) throws Exception {
         return Report.deserialize(new File(resultsFile));
     }
@@ -102,32 +94,6 @@ public class ScanFile {
 
             executeCryptoguard(argBuilder.toString());
             return retrieveResultsByJSON(fileResults);
-        } catch (IOException e) {
-            System.out.println(e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    @LineMagic(aliases = { "pcryptoguard", "pcguard" })
-    public AnalyzerReport pscan(List<String> args) throws Exception {
-        try {
-            MagicsArgs schema = MagicsArgs.builder().required("file").onlyKnownKeywords().onlyKnownFlags().build();
-
-            Map<String, List<String>> vals = schema.parse(args);
-            String filepath = vals.get("file").get(0);
-            String fileResults = filepath + ".xml";
-
-            StringBuilder argBuilder = new StringBuilder();
-
-            argBuilder.append("-s ").append(filepath).append(" ");
-            argBuilder.append("-in class ");
-            argBuilder.append("-o ").append(fileResults).append(" ");
-            //argBuilder.append("-java /bin/java_eight");
-            //argBuilder.append("-java " + System.getenv("JAVA8"));
-            argBuilder.append("-java " + javaRetrieval("JAVA8"));
-
-            executeCryptoguard(argBuilder.toString());
-            return retrieveResultsByXML(fileResults);
         } catch (IOException e) {
             System.out.println(e);
             throw new RuntimeException(e);
