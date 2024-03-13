@@ -89,17 +89,19 @@ public class CompileFile {
             //https://stackoverflow.com/questions/9126142/output-the-result-of-a-bash-script
             Process process = Runtime.getRuntime().exec("./gradlew clean " + gradleArgs, null, project);
 
-            inheritIO(process.getInputStream(), System.out);
-            inheritIO(process.getErrorStream(), System.err);
-
-            /*
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 System.out.println(inputLine);
             }
             in.close();
-            */
+
+            BufferedReader err = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            while ((inputLine = err.readLine()) != null) {
+                System.out.println(inputLine);
+            }
+            err.close();
+
             System.out.println("Successfully ran the project at " + project.getAbsolutePath());
 
         } catch (IOException e) {
@@ -107,17 +109,6 @@ public class CompileFile {
             throw new RuntimeException(e);
         }
         
-    }
-
-    private static void inheritIO(final InputStream src, final PrintStream dest) {
-        new Thread(new Runnable() {
-            public void run() {
-                Scanner sc = new Scanner(src);
-                while (sc.hasNextLine()) {
-                    dest.println(sc.nextLine());
-                }
-            }
-        }).start();
     }
 
     @CellMagic
